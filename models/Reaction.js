@@ -19,13 +19,15 @@ const reactionSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            //figure out a getter to format the timestamp
+            //figure out a getter method to format the timestamp
+            
         },
         toJSON: {
             getters: true,
         },
     }
 );
+
 
 //this is a subdocument of 'Thought' model, so check docs to insure proper initialization. 
 module.exports = reactionSchema;
