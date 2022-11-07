@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+const reactionSchema = require('./Reaction');
 const thoughtSchema = new Schema(
     {
         thoughtText: {
@@ -17,15 +17,16 @@ const thoughtSchema = new Schema(
             type: String,
             require: true,
         },
-        
         //this should return an array of nested reactions created with the reactionSchema
         reactions: [reactionSchema],
-
+    },
+    {
         toJSON: {
+            virtuals: true,
             getters: true,
         },
-
-    });
+    },
+);
 
 //this will get the length of reactions that go with each thought.
 thoughtSchema
