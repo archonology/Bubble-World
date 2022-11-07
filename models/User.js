@@ -23,7 +23,6 @@ const userSchema = new Schema(
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                //make sure this is the proper way to do a self reference
                 ref: 'User',
             },
         ],

@@ -92,7 +92,7 @@ module.exports = {
           // this is a proxy for now -- to have reactions deleted when their user is deleted.
           : Reaction.findOneAndUpdate(
             { thoughts: req.params._id },
-            { $pull: { thoughts: req.params._id } },
+            { $pull: { reactions: req.params._id } },
             { new: true }
           )
       )

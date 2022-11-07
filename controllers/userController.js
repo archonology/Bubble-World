@@ -30,7 +30,7 @@ module.exports = {
       .lean()
       .then(async (user) =>
         !user
-          ? res.status(404).json({ message: 'No student with that ID' })
+          ? res.status(404).json({ message: 'No user with that ID' })
           : res.json({
             user,
             friendCount: await friendCount(),
@@ -47,20 +47,24 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-    // add a friend -- this needs work, just guessing for now.
-    addFriend(req, res) {
-        User.findOneAndUpdate(
-            { _id: req.params._id },
-            { $set: req.body },
-            { runValidators: true, new: true }
-          )
-            .then((user) =>
-              !user
-                ? res.status(404).json({ message: 'Could not find a friend by that id!' })
-                : res.json(user)
-            )
-            .catch((err) => res.status(500).json(err));
-        },
+  // Add a friend to a user
+  addFriend(req, res) {
+    console.log('You are adding a friend');
+    console.log(req.body);
+    User.findOneAndUpdate(
+      { _id: req.params._id },
+      { $addToSet: { friends: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res
+            .status(404)
+            .json({ message: 'No user found with that ID :(' })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
     // Update a user
     updateUser(req, res) {
         User.findOneAndUpdate(
