@@ -81,6 +81,7 @@ module.exports = {
 
   // Update a thought
   updateThought(req, res) {
+    console.log('You are updating a thought')
     Thought.findOneAndUpdate(
       { _id: req.params._id },
       { $set: req.body },
