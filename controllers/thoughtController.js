@@ -99,18 +99,8 @@ module.exports = {
     Thought.findOneAndRemove({ _id: req.params._id })
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: 'No such thought exists' })
-          // this is a proxy for now -- to have reactions deleted when their user is deleted.
-          : Reaction.findOneAndUpdate(
-            { thoughts: req.params._id },
-            { $pull: { reactions: req.params._id } },
-            { new: true }
-          )
-      )
-      .then((thought) =>
-        !thought
           ? res.status(404).json({
-            message: 'reactions deleted, but no reactions found',
+            message: 'no thought found with that id!',
           })
           : res.json({ message: 'thought successfully deleted' })
       )
@@ -119,6 +109,18 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  //delete reaction needs building
-  deleteReaction(req, res) { }
+  //delete a reaction
+  deleteReaction(req, res) {
+    console.log('You are deleting a reaction');
+    Thought.findOneAndUpdate(
+      { _id: req.params._id },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought ? res.status(404).json({ message: "No reaction found by that id!" })
+          : res.json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+  }
 }
