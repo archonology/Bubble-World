@@ -23,6 +23,6 @@ router.route('/:_id').get(getOneUser).delete(deleteUser);
 router.route('/:_id/friends').post(addFriend);
 
 // /api/users/:_id/friends/:friendId
-router.route('/:_id/friends/:friendId').delete(deleteFriend);
+router.route('/:_id/friends/:friendId').put(deleteFriend);
 
 module.exports = router;
