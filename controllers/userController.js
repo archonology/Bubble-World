@@ -50,10 +50,9 @@ module.exports = {
   // Add a friend to a user
   addFriend(req, res) {
     console.log('You are adding a friend');
-    console.log(req.body);
     User.findOneAndUpdate(
       { _id: req.params._id },
-      { $addToSet: { friends: req.body } },
+      { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     )
       .then((user) =>
@@ -67,6 +66,7 @@ module.exports = {
   },
   // Update a user
   updateUser(req, res) {
+    console.log('You are updating a user');
     User.findOneAndUpdate(
       { _id: req.params._id },
       { $set: req.body },
@@ -81,6 +81,7 @@ module.exports = {
   },
   // Delete a user and delete their thoughts
   deleteUser(req, res) {
+    console.log('You are deleting a user');
     User.findOneAndRemove({ _id: req.params._id })
       .then((user) =>
         !user
@@ -106,6 +107,7 @@ module.exports = {
 
   // Remove assignment from a student
   deleteFriend(req, res) {
+    console.log('You are removing a friend');
     User.findOneAndUpdate(
       { _id: req.params._id },
       { $pull: { friends: req.params.friendId } },
