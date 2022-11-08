@@ -1,13 +1,13 @@
 const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
-// aggregate function to get reactionCount -- this right now is returning thought-count. figure out how to target just the reactions.
+// aggregate function to get reactionCount
 const reactionCount = async () =>
-Thought.aggregate().count('reactionCount')
+  Thought.aggregate().count('reactionCount')
     .then((numberOfReactions) => numberOfReactions);
 
 module.exports = {
-        // Get all thoughts
+  // Get all thoughts
   getThoughts(req, res) {
     Thought.find()
       .then(async (thoughts) => {
@@ -44,7 +44,7 @@ module.exports = {
   // create a new thought and update it to the User.
   createThought(req, res) {
     Thought.create(req.body)
-    .then((thought) => {
+      .then((thought) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
           { $addToSet: { thoughts: thought._id } },
@@ -54,8 +54,8 @@ module.exports = {
       .then((user) =>
         !user
           ? res
-              .status(404)
-              .json({ message: 'Thought created, but found no thought with that ID' })
+            .status(404)
+            .json({ message: 'Thought created, but found no thought with that ID' })
           : res.json('Created the thought 🎉')
       )
       .catch((err) => {
@@ -63,26 +63,36 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-    // create a new reaction -- this needs work
-    createReaction(req, res) {
-        Thought.create(req.body)
-          .then((thought) => res.json(thought))
-          .catch((err) => res.status(500).json(err));
-      },
-    // Update a thought
-    updateThought(req, res) {
-        Course.findOneAndUpdate(
-          { _id: req.params._id },
-          { $set: req.body },
-          { runValidators: true, new: true }
-        )
-          .then((thought) =>
-            !thought
-              ? res.status(404).json({ message: 'No thought with this id!' })
-              : res.json(thought)
-          )
-          .catch((err) => res.status(500).json(err));
-      },
+
+  // create a new reaction -- this needs work
+  createReaction(req, res) {
+    console.log('You are adding a reaction');
+    Thought.findOneAndUpdate(
+      { _id: req.params._id },
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((reaction) =>
+        !reaction ? res.status(404).json({ message: "No reaction found!" })
+          : res.json(reaction)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
+  // Update a thought
+  updateThought(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params._id },
+      { $set: req.body },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: 'No thought with this id!' })
+          : res.json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
   // Delete a thought and delete it's reactions -- needs figuring
   deleteThought(req, res) {
     Thought.findOneAndRemove({ _id: req.params._id })
@@ -107,7 +117,7 @@ module.exports = {
         console.log(err);
         res.status(500).json(err);
       });
-    },
-    //delete reaction needs building
-    deleteReaction(req, res) {}
+  },
+  //delete reaction needs building
+  deleteReaction(req, res) { }
 }
