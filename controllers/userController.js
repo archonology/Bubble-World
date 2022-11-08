@@ -79,16 +79,15 @@ module.exports = {
           )
           .catch((err) => res.status(500).json(err));
       },
-  // Delete a user and delete their thoughts -- needs figuring
+  // Delete a user and delete their thoughts
   deleteUser(req, res) {
     User.findOneAndRemove({ _id: req.params._id })
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No such user exists' })
-          // this is a proxy for now -- to have thoughts deleted when their user is deleted.
-          : Thought.findOneAndUpdate(
-            { users: req.params._id },
-            { $pull: { users: req.params._id } },
+          // all thoughts that belong to user will be deleted upon deleting user
+          : Thought.deleteMany(
+            { thoughts: [] },
             { new: true }
           )
       )
