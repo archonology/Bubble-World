@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const dateFormat = require('../utils/dateFormat');
 const reactionSchema = require('./Reaction');
 const thoughtSchema = new Schema(
     {
@@ -10,8 +11,9 @@ const thoughtSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            //set a custom format for date
             default: Date.now,
+            //set a custom format for date
+            get: timestamp => dateFormat(timestamp)
         },
         username: {
             type: String,
@@ -28,13 +30,6 @@ const thoughtSchema = new Schema(
     },
 );
 
-    //this will customize the createdAt date format
-    thoughtSchema
-    .virtual('formatDate')
-    // Getter
-    .get(function () {
-        return this.createdAt;
-    });
 //this will get the length of reactions that go with each thought.
 thoughtSchema
     .virtual('reactionCount')
