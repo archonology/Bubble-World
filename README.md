@@ -1,9 +1,7 @@
 # Bubble World
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 ## Links
-
-<iframe width="1280" height="720" src="https://www.youtube.com/embed/5A9lBIHdNGY" title="Bubble World Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+[Click here to watch a video tutorial on Youtube](https://youtu.be/5A9lBIHdNGY)
 ## Screenshot
 ![Insomnia Pic](./images/Screenshot%202022-11-09%20at%2010.03.05%20AM.png)    
 ## Table of Contents:
