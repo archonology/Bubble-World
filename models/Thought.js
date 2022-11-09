@@ -10,8 +10,8 @@ const thoughtSchema = new Schema(
         },
         createdAt: {
             type: Date,
+            //set a custom format for date
             default: Date.now,
-            //figure out a getter to format the timestamp
         },
         username: {
             type: String,
@@ -28,6 +28,13 @@ const thoughtSchema = new Schema(
     },
 );
 
+    //this will customize the createdAt date format
+    thoughtSchema
+    .virtual('formatDate')
+    // Getter
+    .get(function () {
+        return this.createdAt;
+    });
 //this will get the length of reactions that go with each thought.
 thoughtSchema
     .virtual('reactionCount')

@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
-// aggregate functino to get friendCount
+// aggregate function to get friendCount
 const friendCount = async () =>
   User.aggregate().count('friendCount')
     .then((numberOfFriends) => numberOfFriends);

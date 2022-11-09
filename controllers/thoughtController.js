@@ -1,6 +1,18 @@
 const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
+// aggregate function to set custom time stamp
+// const formatDate = async () =>
+//   Thought.aggregate([{
+//     $createdAt: {
+//       $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+//     }
+//   }]);
+const formatDate = async () =>
+Thought.aggregate(
+  [{ $dateToString: { format: "%Y-%m-%d", date: "$date" }, }, ]
+);
+
 // aggregate function to get reactionCount
 const reactionCount = async () =>
   Thought.aggregate().count('reactionCount')
@@ -13,6 +25,7 @@ module.exports = {
       .then(async (thoughts) => {
         const thoughtObj = {
           thoughts,
+          formatDate: await formatDate(),
           reactionCount: await reactionCount(),
         };
         return res.json(thoughtObj);
@@ -30,7 +43,7 @@ module.exports = {
       .lean()
       .then(async (thought) =>
         !thought
-          ? res.status(404).json({ message: 'No student with that ID' })
+          ? res.status(404).json({ message: 'No thought with that ID' })
           : res.json({
             thought,
             reactionCount: await reactionCount(),

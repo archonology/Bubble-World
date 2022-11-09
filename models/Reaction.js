@@ -18,8 +18,8 @@ const reactionSchema = new Schema(
         },
         createdAt: {
             type: Date,
+            //set a custom format for date
             default: Date.now,
-            //figure out a getter method to format the timestamp
         }
 
     },
@@ -31,5 +31,5 @@ const reactionSchema = new Schema(
 );
 
 
-//this is a subdocument of 'Thought' model, so check docs to insure proper initialization. 
+//this is a subdocument of 'Thought' model
 module.exports = reactionSchema;

@@ -15,7 +15,7 @@
 #### [License Info](#license-info)
 
 ## Description
-An Experiment in understanding and developing a social media app. Bubble World is a backend application that utilizes MongoDB, Mongoose, and Express to explore the possiblities of social media.
+An Experiment in understanding and developing a social media app. Bubble World is a back end application that utilizes MongoDB, Mongoose, and Express to explore the possiblities of social media.
 
 ## Technology
 The tech dependencies used in this application are MongoDB, Express 4.17, & Mongoose 6.0.
